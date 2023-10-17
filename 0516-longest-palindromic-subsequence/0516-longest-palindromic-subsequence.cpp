@@ -1,24 +1,30 @@
 class Solution {
 public:
-    int solvetop_bottom(string &a, string &b, int i,int j,vector<vector<int>>&dp)
+    int solvetop_bottom(string &a, string &b)
     {
-        if(i==a.length()) return 0;
-        if(j==b.length()) return 0;
-        if(dp[i][j]!=-1) return dp[i][j];
+       vector<vector<int>>dp(a.length()+1,vector<int>(b.length()+1,0));
+        // if(dp[i][j]!=-1) return dp[i][j];
         int ans=0;
-        if(a[i]==b[j]) ans=1+solvetop_bottom(a,b,i+1,j+1,dp);
-        else
+        for(int i=a.length()-1;i>=0;i--)
         {
-            ans=0+max(solvetop_bottom(a,b,i+1,j,dp),solvetop_bottom(a,b,i,j+1,dp));
+            for(int j=b.length()-1;j>=0;j--)
+            {
+                if(a[i]==b[j]) ans=1+dp[i+1][j+1];
+                 else
+            
+                 {ans=0+max(dp[i+1][j],dp[i][j+1]);}
+            dp[i][j]=ans;
+            
         }
-        dp[i][j]=ans;
-        return dp[i][j];
+        }
+        
+        return dp[0][0];
     }
     int longestPalindromeSubseq(string s) {
         string first=s;
         reverse(s.begin(),s.end());
         string second =s;
-        vector<vector<int>>dp(first.length(),vector<int>(second.length(),-1));
-        return solvetop_bottom(first,second,0,0,dp);
+        
+        return solvetop_bottom(first,second);
     }
 };
