@@ -1,26 +1,41 @@
 class Solution {
 public:
-    int solve(string &a , string &b , int i , int j, vector<vector<int>>&dp )
+    int solve(string &a , string &b )
     {
-        if(i==a.length()) return b.length()-j;
-        if(j==b.length()) return a.length()-i;
-        if(dp[i][j]!=-1) return dp[i][j];
-        int ans=0;
-        if(a[i]==b[j]) ans=0+solve(a,b ,i+1,j+1,dp);
-        else
+         vector<vector<int>>dp(a.length()+1,vector<int>(b.length()+1,0));
+        // if(i==a.length()) return b.length()-j;
+        // if(j==b.length()) return a.length()-i;
+        // if(dp[i][j]!=-1) return dp[i][j];
+        for(int i=0;i<=b.length();i++)
+            dp[a.length()][i]=b.length()-i;
+        for(int i=0;i<=a.length();i++)
+            dp[i][b.length()]=a.length()-i;
+        
+        for(int i=a.length()-1;i>=0;i--)
         {
-            int insert=1+solve(a,b,i,j+1,dp);
-            int Delete=1+solve(a,b,i+1,j,dp);
-            int replace=1+solve(a,b,i+1,j+1,dp);
-            ans=min(insert,min(Delete,replace));
+            for(int j=b.length()-1;j>=0;j--)
+            {
+            int ans=0;
+            if(a[i]==b[j]) ans=dp[i+1][j+1];
+            else
+            {
+                int insert=1+dp[i][j+1];
+                int Delete=1+dp[i+1][j];
+                int replace=1+dp[i+1][j+1];
+                ans=min(insert,min(Delete,replace));
+                
+            }
+                 dp[i][j]=ans;
+            }
         }
-        dp[i][j]=ans;
-        return dp[i][j];
+      
+        
+        return dp[0][0];
     }
     int minDistance(string word1, string word2) {
         if(word1.length()==0) return word2.length();
         if(word2.length()==0) return word1.length();
-        vector<vector<int>>dp(word1.length(),vector<int>(word2.length(),-1));
-        return solve(word1,word2,0,0,dp);
+       
+        return solve(word1,word2);
     }
 };
