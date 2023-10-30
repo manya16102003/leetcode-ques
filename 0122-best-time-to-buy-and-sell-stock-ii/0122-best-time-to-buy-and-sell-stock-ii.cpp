@@ -49,7 +49,9 @@ int solvebu(vector<int>& prices,vector<vector<int>>&dp)
    
 }
     int maxProfit(vector<int>& prices) {
-        vector<vector<int>>dp(prices.size()+1,vector<int>(2,0));
-      return solvebu(prices,dp);
+        // vector<vector<int>>dp(prices.size()+1,vector<int>(2,0));
+      // return solvebu(prices,dp);
+        vector<vector<int>>dp(prices.size(),vector<int>(2,-1));
+        return solvetb(prices,true,dp,0);
     }
 };
