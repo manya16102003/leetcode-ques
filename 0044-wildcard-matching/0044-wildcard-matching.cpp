@@ -18,7 +18,7 @@ public:
         {
             return dp[si][pi]=(ismatching(s,p,si,pi-1,dp)||ismatching(s,p,si-1,pi,dp));
         }
-        else return false;
+        else return dp[si][pi]=false;
     }
 
 
