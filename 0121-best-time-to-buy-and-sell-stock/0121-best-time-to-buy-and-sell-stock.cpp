@@ -1,18 +1,18 @@
 class Solution {
 public:
-    void solve(vector<int>& prices,int &mini,int &maxi,int i)
+    void solve(vector<int>& prices , int i , int &minprice , int &maxprofit)
     {
-        if(i>=prices.size())
-            return;
-        if(prices[i]<mini)mini=prices[i];
-        int total_profit=prices[i]-mini;
-        if(total_profit>maxi)maxi=total_profit;
-        solve(prices,mini,maxi,i+1);
+        if(i>=prices.size()) return ;
+        if(minprice > prices[i]) minprice=prices[i];
+        if(maxprofit<prices[i]-minprice) maxprofit=prices[i]-minprice;
+        solve(prices , i+1 , minprice , maxprofit);
+
     }
     int maxProfit(vector<int>& prices) {
-        int mini=INT_MAX;
-        int maxi=INT_MIN;
-        solve(prices,mini,maxi,0);
-        return maxi;
+        int minprice=INT_MAX;
+        int maxprofit=INT_MIN;
+         solve(prices , 0 , minprice , maxprofit);
+         return maxprofit;
+        
     }
 };
